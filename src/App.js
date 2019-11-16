@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+
 import { Switch, Route, Redirect } from "react-router-dom";
 import axios from "axios";
 
@@ -10,23 +11,23 @@ import AuthorDetail from "./AuthorDetail";
 import BookList from "./BookList";
 
 const instance = axios.create({
-  baseURL: "https://the-index-api.herokuapp.com"
+  baseURL: "https://the-index-api.herokuapp.com/"
 });
 
 class App extends Component {
   state = {
-    authors: null,
+    authors: [],
     books: [],
-    loading: false
+    loading: true
   };
 
   fetchAllAuthors = async () => {
-    const res = await instance.put("/api/authors/");
+    const res = await instance.get("/api/authors/");
     return res.data;
   };
 
   fetchAllBooks = async () => {
-    const res = await instance.get("/-api/books/");
+    const res = await instance.get("/api/books/");
     return res.data;
   };
 
@@ -60,7 +61,7 @@ class App extends Component {
       return (
         <Switch>
           <Redirect exact from="/" to="/authors" />
-          <Route path="/authors/:ID" component={AuthorDetail} />
+          <Route path="/authors/:authorID" component={AuthorDetail} />
           <Route
             path="/authors/"
             render={props => (
